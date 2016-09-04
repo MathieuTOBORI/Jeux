@@ -18,6 +18,8 @@ public class ClassePrincipale {
 		// TODO Auto-generated method stub
 		Joueur joueur1 = new Joueur("Djokovic", 0);
 		Joueur joueur2 = new Joueur("MacEnroe", 0);
+		boolean finDuJeu = false;
+
 		System.out.println(
 				"                    **************************************************************            ");
 		System.out.println("Debut du jeux");
@@ -25,14 +27,14 @@ public class ClassePrincipale {
 
 		// Ouverture d'un fichier de log
 
-		File resultat = new File("Jeu Gagné par Djokovic.txt");
+		File resultat = new File("Egalite.txt");
 		FileWriter fw = new FileWriter(resultat);
 		fw.write("******************* Debut du jeu***************************" + "\n");
 
 		// Lire les entrer du clavier
 		Scanner jeux = new Scanner(System.in);
 
-		while ((joueur1.getPoint() != joueur2.getPoint() + 2) && (joueur2.getPoint() != joueur1.getPoint() + 2)) {
+		while (!finDuJeu) {
 
 			System.out.println("**********  Saisissez le nom joueur qui a gagné : **********");
 			String nomJoueurSaisit = jeux.nextLine();
@@ -43,34 +45,78 @@ public class ClassePrincipale {
 				fw.write(joueur1.getNom() + " " + joueur1.getPoint() + "\n");
 				fw.flush();
 
-			} else if (nomJoueurSaisit.equals("MacEnroe")) {
+				if (joueur1.getPoint() == joueur2.getPoint() && joueur1.getPoint() >= 3) {
+
+					// Ecriture dans le fichier text
+					fw.write("********************************************* " + "\n");
+					fw.write(" Les deux joueurs sont égalites " + "\n");
+					fw.write("********************************************* " + "\n");
+
+					System.out.println("*********************************************");
+					System.out.println(" Les deux joueurs sont egalites ");
+					System.out.println("*********************************************");
+
+					joueur1.affiche();
+					joueur2.affiche();
+
+				}
+
+				if ((joueur1.getPoint() == joueur2.getPoint() + 1) && (joueur2.getPoint() >= 3)) {
+
+					// Ecriture dans le fichier text
+					fw.write("********************************************* " + "\n");
+					fw.write("le joueur " + joueur2.getNom() + " a l'avantage" + "\n");
+					fw.write("********************************************* " + "\n");
+
+					System.out.println("*********************************************");
+					System.out.println("le joueur " + joueur1.getNom() + " a l'avantage");
+					System.out.println("*********************************************");
+
+				}
+
+				if (joueur1.getPoint() >= joueur2.getPoint() + 2 && joueur1.getPoint() > 2) {
+					finDuJeu = true;
+				}
+
+			}
+
+			else if (nomJoueurSaisit.equals("MacEnroe")) {
+
 				joueur2.gagnerUnPoint(joueur2.getPoint());
 				fw.write(joueur2.getNom() + " " + joueur2.getPoint() + "\n");
 				// Forçage de l'écriture
 				fw.flush();
-			}
 
-		}
-		// Donner le nom du gagnant
-		if ((joueur1.getPoint() == 2 && joueur2.getPoint() == 0)
-				|| (joueur2.getPoint() == 2 && joueur1.getPoint() == 0)) {
-			if ((joueur1.getPoint() == joueur2.getPoint() + 2) || (joueur2.getPoint() == joueur1.getPoint() + 2)) {
+				if (joueur1.getPoint() == joueur2.getPoint() && joueur2.getPoint() >= 3) {
 
-				System.out.println("********** Saisissez le nom joueur qui a gagné le point: **********");
-				String nomJoueurSaisit = jeux.nextLine();
+					// Ecriture dans le fichier text
+					fw.write("********************************************* " + "\n");
+					fw.write(" Les deux joueurs sont égalites " + "\n");
+					fw.write("********************************************* " + "\n");
 
-				System.out.println("le joueur est : " + nomJoueurSaisit);
-				if (nomJoueurSaisit.equals("Djokovic")) {
-					joueur1.gagnerUnPoint(joueur1.getPoint());
-					fw.write(joueur1.getNom() + " " + joueur1.getPoint() + "\n");
-					fw.flush();
+					System.out.println("*********************************************");
+					System.out.println(" Les deux joueurs sont egalites ");
+					System.out.println("*********************************************");
+					joueur1.affiche();
+					joueur2.affiche();
 
-				} else if (nomJoueurSaisit.equals("MacEnroe")) {
-					joueur2.gagnerUnPoint(joueur2.getPoint());
-					fw.write(joueur2.getNom() + " " + joueur2.getPoint() + "\n");
-					// Forçage de l'écriture
-					fw.flush();
+				}
 
+				if ((joueur2.getPoint() == joueur1.getPoint() + 1) && (joueur1.getPoint() >= 3)) {
+
+					// Ecriture dans le fichier text
+					fw.write("********************************************* " + "\n");
+					fw.write("le joueur " + joueur2.getNom() + " a l'avantage" + "\n");
+					fw.write("********************************************* " + "\n");
+
+					System.out.println("*********************************************");
+					System.out.println("le joueur " + joueur2.getNom() + " a l'avantage");
+					System.out.println("*********************************************");
+
+				}
+
+				if (joueur2.getPoint() >= joueur1.getPoint() + 2 && joueur2.getPoint() > 2) {
+					finDuJeu = true;
 				}
 			}
 
